@@ -1,27 +1,16 @@
-import axios from "axios";
-import { response } from "msw";
 import React from "react";
-import { useState, useEffect } from "react";
 import Karakter from "./components/Karakter.js";
+import Filmler from "./components/Filmler.js";
 
 const App = () => {
-  const [karakterler, setKarakterler] = useState();
-  useEffect(() => {
-    axios
-      .get("https://swapi.dev/api/people/?page=")
-      .then((response) => {
-        setKarakterler(response.data.results);
-        console.log(response.data.results);
-      })
-      .catch((error) => {
-        console.log("Error" + error);
-      });
-  }, []);
-
   return (
     <div className="App">
-      <Karakter karakterler={karakterler} />
+      <h1>KARAKTERLER</h1>
+      <Karakter />
+      <h1>FİLMLER</h1>
+      <Filmler />
     </div>
   );
 };
+
 export default App;
