@@ -1,57 +1,82 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useState, useEffect } from "react";
 import {
   Accordion,
-  AccordionBody,
   AccordionHeader,
   AccordionItem,
+  AccordionBody,
 } from "reactstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import styled from "styled-components";
+import Filmler from "./Filmler.js";
 
-const Karakter = () => {
-  const [karakterler, setKarakterler] = useState([]);
+const ContainerKarakterler = styled.div`
+  width: 40vw;
+  background-color: #f2f2f2;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 20px;
+  text-align: center;
+  margin: auto;
+  padding: 10px;
+  color: #333;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+`;
+
+export default function Karakter(props) {
+  const [karakterler, setKarakterler] = useState();
   const [open, setOpen] = useState("");
 
   useEffect(() => {
     axios
       .get("https://swapi.dev/api/people/")
       .then((response) => {
+        console.log(response.data);
         setKarakterler(response.data);
       })
       .catch((error) => {
-        console.log("Error" + error);
+        console.log("Error!" + error);
       });
   }, []);
 
   const toggle = (id) => {
     if (open === id) {
-      setOpen("");
+      setOpen();
     } else {
       setOpen(id);
     }
   };
-  if (!karakterler) {
-    return <h3>Yükleniyor ...</h3>;
-  }
-  return (
-    <div>
-      {karakterler.map((karakter) => (
-        <Accordion open={open} toggle={toggle}>
-          <AccordionItem>
-            <AccordionHeader targetId="1">{karakter.name}</AccordionHeader>
-            <AccordionBody accordionId="2">
-              <p>Cinsiyet: {karakter.gender}</p>
-              <p>Doğum tarihi: {karakter.birth_year}</p>
-              <p>Boy: {karakter.height}</p>
-              <p>Kilo: {karakter.mass}</p>
-              <p>Saç rengi: {karakter.hair_color}</p>
-              <p>Göz rengi: {karakter.eye_color}</p>
-            </AccordionBody>
-          </AccordionItem>
-        </Accordion>
-      ))}
-    </div>
-  );
-};
 
-export default Karakter;
+  return (
+    <ContainerKarakterler>
+      {karakterler ? (
+        karakterler.map((karakter) => (
+          <karakterBilgileri>
+            <Accordion open={open} toggle={toggle}>
+              <AccordionItem>
+                <AccordionHeader targetId="1">{karakter.name}</AccordionHeader>
+                <AccordionBody accordionId="1">
+                  <p>height : {karakter.height}</p>
+                  <p>mass : {karakter.mass}</p>
+                  <p>hair_color : {karakter.hair_color}</p>
+                  <p>skin_color :{karakter.skin_color}</p>
+                  <p>eye_color :{karakter.eye_color}</p>
+                  <p>birth_year :{karakter.birth_year}</p>
+                  <p>gender :{karakter.gender}</p>
+                  <p>homeworld :{karakter.homeworld}</p>
+                  <Filmler filmler={karakter.films} />
+                </AccordionBody>
+              </AccordionItem>
+            </Accordion>
+          </karakterBilgileri>
+        ))
+      ) : (
+        <h3>Yükleniyor...</h3>
+      )}
+    </ContainerKarakterler>
+  );
+}
