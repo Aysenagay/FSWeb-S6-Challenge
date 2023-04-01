@@ -16,7 +16,7 @@ const ContainerKarakterler = styled.div`
   background-color: #f2f2f2;
   border: 1px solid black;
   border-radius: 5px;
-  font-family: "Open Sans", sans-serif;
+  font-family: Georgia, serif;
   font-size: 1.2em;
   font-weight: bold;
   padding: 20px;
@@ -25,6 +25,11 @@ const ContainerKarakterler = styled.div`
   padding: 10px;
   color: #333;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+`;
+const KarakterBilgileri = styled.div`
+  padding: 10px;
+  color: #333;
+  background-color: #f2f2f2;
 `;
 
 export default function Karakter(props) {
@@ -55,7 +60,7 @@ export default function Karakter(props) {
     <ContainerKarakterler>
       {karakterler ? (
         karakterler.map((karakter) => (
-          <karakterBilgileri>
+          <KarakterBilgileri>
             <Accordion open={open} toggle={toggle}>
               <AccordionItem>
                 <AccordionHeader targetId="1">{karakter.name}</AccordionHeader>
@@ -72,7 +77,7 @@ export default function Karakter(props) {
                 </AccordionBody>
               </AccordionItem>
             </Accordion>
-          </karakterBilgileri>
+          </KarakterBilgileri>
         ))
       ) : (
         <h3>Yükleniyor...</h3>
